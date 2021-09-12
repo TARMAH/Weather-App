@@ -1,8 +1,10 @@
+import  './CityGetter.css';  
 import { useState,useEffect } from "react"; 
 import axios from 'axios';
 import "antd/dist/antd.css";
 import { AutoComplete } from "antd";
 const { Option } = AutoComplete;
+
 
 
 function csvJSON(csvStr){
@@ -32,7 +34,7 @@ function csvJSON(csvStr){
   }
 
 
-export function CityGetter({setCityCoordinates}){
+export  const CityGetter = ({setCityDetails}) =>{
 
     const [headers , setHeaders] = useState([]);
     const [result, setResult] = useState([]);
@@ -69,17 +71,17 @@ export function CityGetter({setCityCoordinates}){
 
   
     return (
-      <div>
+      <div className="search">
         <AutoComplete
                 style={{
-                    width: 200
+                    width: '50%',
                 }}
                 onSearch={handleSearch}
                 placeholder="Search City"
                 >
                 {result.map((d,idx) => (
                     <Option key={idx} value={d[headers[0]]} >
-                    <div onClick={ () => setCityCoordinates({'lat':Number(d[headers[2]]),'lon':Number(d[headers[3]])})}>{d[headers[0]]}</div>
+                    <div onClick={ () => setCityDetails({'name':d[headers[0]],'lat':Number(d[headers[2]]),'lon':Number(d[headers[3]])})}>{d[headers[0]]}</div>
                     </Option >
                 ))}
                         

@@ -1,0 +1,21 @@
+.search {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 0 auto 20px;
+    appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+    background-color: rgba(255,255,255,0.5);
+    box-shadow: 5px 5px rgba(39, 35, 35, 0.3);
+    border-radius: 40px;
+    flex-shrink: 0;
+    flex-grow: 1;
+    max-width: 900px;
+   }
+   
+.search:focus {
+    background-color: white;
+    width: 100%;
+   }
