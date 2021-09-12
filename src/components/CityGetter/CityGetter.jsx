@@ -10,6 +10,10 @@ function csvJSON(csvStr){
     let result = [];
 
     let headers=lines[0].split(",");
+
+    for(let i = 0; i < headers.length;i++)
+        headers[i] = headers[i].slice(1,-1);
+
   
     for(let i=1;i<lines.length;i++){
   
@@ -17,7 +21,7 @@ function csvJSON(csvStr){
         let currentline=lines[i].split(",");
   
         for(let j=0;j<headers.length;j++){
-            obj[headers[j]] = currentline[j];
+            obj[headers[j]] = currentline[j]?.slice(1,-1);
             
         }
   
@@ -28,20 +32,19 @@ function csvJSON(csvStr){
   }
 
 
-export function CityGetter({data,setData}){
+export function CityGetter({setCityCoordinates}){
 
     const [headers , setHeaders] = useState([]);
     const [result, setResult] = useState([]);
-    const [city, setCity] = useState({});
+    const [data, setData] = useState([]);
 
     useEffect(() => {
+        console.log("CITY GETTER LOADED")
         axios.get('/data/german_cities_latlon.csv')
         .then(res => {
-            let data = res.data;
-            const {result , headers} = csvJSON(data);
-            console.log(result[0][headers[2]]);
-            console.log(result[0]);
-            console.log(headers);
+            let d = res.data;
+            const {result , headers} = csvJSON(d);
+            console.log(result);
             setHeaders(headers);
             setData(result);
         })
@@ -60,7 +63,6 @@ export function CityGetter({data,setData}){
         }
         else {
             setResult([]);
-            setCity({});
         }
        
       };
@@ -77,10 +79,10 @@ export function CityGetter({data,setData}){
                 >
                 {result.map((d,idx) => (
                     <Option key={idx} value={d[headers[0]]} >
-                    <div onClick={ () => setCity(d)}>{d[headers[0]]}</div>
+                    <div onClick={ () => setCityCoordinates({'lat':Number(d[headers[2]]),'lon':Number(d[headers[3]])})}>{d[headers[0]]}</div>
                     </Option >
                 ))}
-                        {console.log(city)}
+                        
             </AutoComplete>
       </div>
     )
