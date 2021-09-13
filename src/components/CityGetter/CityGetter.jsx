@@ -1,38 +1,10 @@
-import  './CityGetter.css';  
+import './CityGetter.css';
+import { csvToJSON } from '../../utils/csvToJson';
 import { useState,useEffect } from "react"; 
 import axios from 'axios';
 import "antd/dist/antd.css";
 import { AutoComplete } from "antd";
 const { Option } = AutoComplete;
-
-
-
-function csvJSON(csvStr){
-    let lines=csvStr.split("\n");
-    let result = [];
-
-    let headers=lines[0].split(",");
-
-    for(let i = 0; i < headers.length;i++)
-        headers[i] = headers[i].slice(1,-1);
-
-  
-    for(let i=1;i<lines.length;i++){
-  
-        let obj = {};
-        let currentline=lines[i].split(",");
-  
-        for(let j=0;j<headers.length;j++){
-            obj[headers[j]] = currentline[j]?.slice(1,-1);
-            
-        }
-  
-        result.push(obj);
-  
-    }
-    return {headers,result};
-  }
-
 
 export  const CityGetter = ({setCityDetails}) =>{
 
@@ -45,7 +17,7 @@ export  const CityGetter = ({setCityDetails}) =>{
         axios.get('/data/german_cities_latlon.csv')
         .then(res => {
             let d = res.data;
-            const {result , headers} = csvJSON(d);
+            const {result , headers} = csvToJSON(d);
             console.log(result);
             setHeaders(headers);
             setData(result);

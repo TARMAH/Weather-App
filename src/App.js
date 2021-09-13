@@ -26,7 +26,7 @@ function App() {
     <div className="App">
       <CityGetter setCityDetails={setCityDetails}/>
       <WeatherDetails weatherInfo={weatherInfo} units={units} cityName={cityDetails.name}/>
-      <Map />
+      <Map defaultCoordinates={ {lat:cityDetails.lat,lng:cityDetails.lon} } />
     </div>
   );
 }
