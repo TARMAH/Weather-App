@@ -40,12 +40,12 @@ export const Map = ({coordinates,cityName,setCityDetails}) => {
             >
                 {data?.map((place, i) => (
                     <div
-                        onClick={() => setCityDetails({'name':place.name,'lat':place.latitude,'lon':place.longitude})}
+                        onClick={( ) => setCityDetails({'name':place.name,'lat':place.latitude,'lon':place.longitude})}
                         className="markerContainer"
                         lat={place.latitude}
                         lng={place.longitude}
                         key={i}
-                    ><CaretDownOutlined className={( ((coordinates.lng == place.longitude)&&(coordinates.lat == place.latitude)) ? 'selected' : 'icon')}/></div>
+                    ><CaretDownOutlined className={( ((coordinates.lng == place.longitude)&&(coordinates.lat == place.latitude)) ? 'selected' : 'icon')} title="Click to see weather details"/></div>
                 ))}
             </GoogleMapReact>
         </div>

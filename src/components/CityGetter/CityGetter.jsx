@@ -25,7 +25,7 @@ export  const CityGetter = ({setCityDetails}) =>{
       }, []);
 
       const handleSearch = (value) => {
-        if (value.length > 3) {
+        if (value.length > 2) {
           let res = [];
     
           for (const d of data) {

@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-image: linear-gradient(to bottom,#CEF, rgba(0,0,0,0.75));
+  background-color: #F3F3F3;
   padding: 50px;
   margin: auto;
   display: flex;
