@@ -1,11 +1,12 @@
 import './Map.css';
 import { csvToJSON } from '../../utils/csvToJson';
+import { ifExists } from '../../utils/checkIfExists';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import GoogleMapReact from "google-map-react";
 import {CaretDownOutlined} from '@ant-design/icons';
 
-export const Map = ({defaultCoordinates}) => {
+export const Map = ({coordinates,cityName,setCityDetails}) => {
 
     const [data, setData] = useState([]);
 
@@ -19,22 +20,32 @@ export const Map = ({defaultCoordinates}) => {
             setData(result);
         })
     }, []);
+
+    useEffect(() => {
+        let result = data;
+        if (result?.length >0 && !ifExists(cityName, result)) {
+            result?.push({ name: cityName, latitude: coordinates.lat, longitude: coordinates.lng });
+            setData(result);
+        }
+    }, [cityName]);
     
     return (
         <div className="map-container">
             <GoogleMapReact
                 bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY}}
-                defaultCenter={defaultCoordinates}
+                defaultCenter={coordinates}
+                center={coordinates}
                 defaultZoom={6}
-                // onChildClick={(child) => setChildClicked(child)}
+                onChildClick={(child) => console.log(child)}
             >
                 {data?.map((place, i) => (
                     <div
+                        onClick={() => setCityDetails({'name':place.name,'lat':place.latitude,'lon':place.longitude})}
                         className="markerContainer"
                         lat={place.latitude}
                         lng={place.longitude}
                         key={i}
-                    ><CaretDownOutlined className="icon"/></div>
+                    ><CaretDownOutlined className={( ((coordinates.lng == place.longitude)&&(coordinates.lat == place.latitude)) ? 'selected' : 'icon')}/></div>
                 ))}
             </GoogleMapReact>
         </div>

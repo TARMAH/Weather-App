@@ -18,7 +18,7 @@ export  const CityGetter = ({setCityDetails}) =>{
         .then(res => {
             let d = res.data;
             const {result , headers} = csvToJSON(d);
-            console.log(result);
+            //console.log(result);
             setHeaders(headers);
             setData(result);
         })

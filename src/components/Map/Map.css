@@ -5,9 +5,41 @@
     margin-left: 2%;
 }
 
+.markerContainer{
+    position: relative;
+    right: 1rem;
+    bottom: 2rem;
+}
+
+.selected{
+    color:yellow;
+    font-size:30px;
+    padding-bottom:10px;
+    animation: updown 1s ease infinite;
+}
+
+@keyframes updown {
+  0% {
+    transform: translateY(-5%);
+  }
+
+  50% {
+    transform: translateY(5%);
+  }
+
+  100% {
+    transform: translateY(-5%);
+  }
+}
+
 .icon{
     font-size:30px;
     color:blue;
+    padding-bottom:10px;
+}
+
+.icon :hover{
+    cursor: help;
 }
 
 @media only screen and (max-width: 600px) {
