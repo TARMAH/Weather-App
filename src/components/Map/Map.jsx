@@ -13,9 +13,9 @@ export const Map = ({coordinates,cityName,setCityDetails}) => {
     useEffect(() => {
         console.log("CITY GETTER LOADED")
         axios.get('/data/german_capitals_latlon.csv')
-        .then (res => {
+        .then (async res => {
             let d = res.data;
-            const {result , headers_} = csvToJSON(d);
+            const {result } = await csvToJSON(d);
             console.log(result);
             setData(result);
         })
@@ -36,7 +36,6 @@ export const Map = ({coordinates,cityName,setCityDetails}) => {
                 defaultCenter={coordinates}
                 center={coordinates}
                 defaultZoom={6}
-                onChildClick={(child) => console.log(child)}
             >
                 {data?.map((place, i) => (
                     <div
@@ -45,7 +44,7 @@ export const Map = ({coordinates,cityName,setCityDetails}) => {
                         lat={place.latitude}
                         lng={place.longitude}
                         key={i}
-                    ><CaretDownOutlined className={( ((coordinates.lng == place.longitude)&&(coordinates.lat == place.latitude)) ? 'selected' : 'icon')} title="Click to see weather details"/></div>
+                    ><CaretDownOutlined className={( ((Number(coordinates.lng) === Number(place.longitude))&& (Number(coordinates.lat) ===  Number(place.latitude))) ? 'selected' : 'icon')} title="Click to see weather details"/></div>
                 ))}
             </GoogleMapReact>
         </div>

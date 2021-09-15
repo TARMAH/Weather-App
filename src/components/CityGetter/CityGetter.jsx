@@ -15,9 +15,10 @@ export  const CityGetter = ({setCityDetails}) =>{
     useEffect(() => {
         console.log("CITY GETTER LOADED")
         axios.get('/data/german_cities_latlon.csv')
-        .then(res => {
+        .then( async res => {
             let d = res.data;
-            const {result , headers} = csvToJSON(d);
+          const { result, headers } = await csvToJSON(d);
+            console.log("+++++++++++++",result,headers)
             //console.log(result);
             setHeaders(headers);
             setData(result);
