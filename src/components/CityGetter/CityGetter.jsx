@@ -1,29 +1,14 @@
 import './CityGetter.css';
-import { csvToJSON } from '../../utils/csvToJson';
-import { useState,useEffect } from "react"; 
-import axios from 'axios';
+import { useState } from "react"; 
 import "antd/dist/antd.css";
+import { useFetchCSVHook } from '../hooks/useFetchHook';
 import { AutoComplete } from "antd";
 const { Option } = AutoComplete;
 
 export  const CityGetter = ({setCityDetails}) =>{
 
-    const [headers , setHeaders] = useState([]);
-    const [result, setResult] = useState([]);
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-        console.log("CITY GETTER LOADED")
-        axios.get('/data/german_cities_latlon.csv')
-        .then( async res => {
-            let d = res.data;
-          const { result, headers } = await csvToJSON(d);
-            console.log("+++++++++++++",result,headers)
-            //console.log(result);
-            setHeaders(headers);
-            setData(result);
-        })
-      }, []);
+    const [filteredResult, setFilteredResult] = useState([]);
+    const { headers, data } = useFetchCSVHook('/data/german_cities_latlon.csv');
 
       const handleSearch = (value) => {
         if (value.length > 2) {
@@ -34,10 +19,10 @@ export  const CityGetter = ({setCityDetails}) =>{
           }
     
           console.log(res);
-          setResult(res);
+          setFilteredResult(res);
         }
         else {
-            setResult([]);
+          setFilteredResult([]);
         }
        
       };
@@ -52,7 +37,7 @@ export  const CityGetter = ({setCityDetails}) =>{
                 onSearch={handleSearch}
                 placeholder="Search City"
                 >
-                {result.map((d,idx) => (
+                {filteredResult?.map((d,idx) => (
                     <Option key={idx} value={d[headers[0]]} >
                     <div onClick={ () => setCityDetails({'name':d[headers[0]],'lat':Number(d[headers[2]]),'lon':Number(d[headers[3]])})}>{d[headers[0]]}</div>
                     </Option >

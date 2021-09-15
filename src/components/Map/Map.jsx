@@ -1,25 +1,13 @@
 import './Map.css';
-import { csvToJSON } from '../../utils/csvToJson';
-import { ifExists } from '../../utils/checkIfExists';
-import { useState, useEffect } from "react";
-import axios from 'axios';
+import { ifExists } from '../utils/checkIfExists';
+import { useEffect } from "react";
 import GoogleMapReact from "google-map-react";
-import {CaretDownOutlined} from '@ant-design/icons';
+import { CaretDownOutlined } from '@ant-design/icons';
+import { useFetchCSVHook } from '../hooks/useFetchHook';
 
 export const Map = ({coordinates,cityName,setCityDetails}) => {
 
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-        console.log("CITY GETTER LOADED")
-        axios.get('/data/german_capitals_latlon.csv')
-        .then (async res => {
-            let d = res.data;
-            const {result } = await csvToJSON(d);
-            console.log(result);
-            setData(result);
-        })
-    }, []);
+    const { setData, data } = useFetchCSVHook('/data/german_capitals_latlon.csv');
 
     useEffect(() => {
         let result = data;
@@ -27,7 +15,7 @@ export const Map = ({coordinates,cityName,setCityDetails}) => {
             result?.push({ name: cityName, latitude: coordinates.lat, longitude: coordinates.lng });
             setData(result);
         }
-    }, [cityName]);
+    }, [cityName,coordinates,data,setData]);
     
     return (
         <div className="map-container">
