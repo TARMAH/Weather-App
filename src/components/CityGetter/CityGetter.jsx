@@ -5,12 +5,15 @@ import { useFetchCSVHook } from '../hooks/useFetchHook';
 import { AutoComplete } from "antd";
 const { Option } = AutoComplete;
 
+const SKIP = ['ü','ö'];  // add values to skip
+
 export  const CityGetter = ({setCityDetails}) =>{
 
     const [filteredResult, setFilteredResult] = useState([]);
+    const [value, setValue] = useState('');
     const { headers, data } = useFetchCSVHook('/data/german_cities_latlon.csv');
 
-      const handleSearch = (value) => {
+    const handleSearch = (value) => {
         if (value.length > 2) {
           let res = [];
     
@@ -25,16 +28,27 @@ export  const CityGetter = ({setCityDetails}) =>{
           setFilteredResult([]);
         }
        
-      };
+    };
+  
+  const handleChange = (v) => {
+      for (let i = 0; i < v.length; i++) {
+        if (SKIP.includes(v[i])) {
+          v = v.replace(v[i], '');
+        }
+      }
+      setValue(v);
+    }
 
   
     return (
       <div className="search">
-        <AutoComplete
+            <AutoComplete
                 style={{
                     width: '50%',
                 }}
                 onSearch={handleSearch}
+                value={value}
+                onChange={handleChange}
                 placeholder="Search City"
                 >
                 {filteredResult?.map((d,idx) => (
