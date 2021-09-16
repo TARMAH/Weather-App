@@ -13,11 +13,8 @@ function App() {
   const [units , setUnits] = useState({});
 
   useEffect(() => {
-    console.log("APP LOADED")
-    //console.log(cityDetails);
     axios.get('https://api.met.no/weatherapi/locationforecast/2.0/compact?lat='+cityDetails.lat+'&lon='+cityDetails.lon)
       .then((response) => {
-        //console.log(response.data.properties.timeseries[0].data.instant.details);
         setUnits(response.data.properties.meta.units)
         setWeatherInfo(response.data.properties.timeseries[0].data.instant.details);
     });
