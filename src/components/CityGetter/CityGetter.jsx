@@ -20,8 +20,7 @@ export  const CityGetter = ({setCityDetails}) =>{
           for (const d of data) {
             if(d[headers[0]].toLowerCase().includes(value.toLowerCase()))res.push(d);
           }
-    
-          console.log(res);
+          
           setFilteredResult(res);
         }
         else {
